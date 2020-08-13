@@ -1,3 +1,7 @@
+const otherTitleFieldSelector = 'input#other-title';
+const shirtColorFieldSelector = '#shirt-colors';
+
+
 /**
  * Display 'other title' input field when 'other' option
  * is selected from the 'job role' select field. Hide it when it's not selected.
@@ -6,36 +10,39 @@ function jobRoleOtherTitleFunctionality() {
     let jobRoleSelect = document.querySelector('select#title');
     jobRoleSelect.addEventListener('change', e => {
         if (e.target.value == 'other') {
-            displayOtherTitleField();
-            setFocusOnOtherTitleField();
+            showFieldBySelector(otherTitleFieldSelector);
+            setFocusOnElementBySelector(otherTitleFieldSelector);
         } else {
-            hideOtherTitleField();
+            hideFieldBySelector(otherTitleFieldSelector);
         }
     });
 }
 
 
 /**
- * Remove hidden class from 'other-title' input field
+ * Get element based on the passed selector and add 'is-hidden' class to it
+ * @param {string} selector - class or id of an element
  */
-function displayOtherTitleField() {
-    document.querySelector('input#other-title').classList.remove('is-hidden');
+function hideFieldBySelector(selector) {
+    document.querySelector(selector).classList.add('is-hidden');
 }
 
 
 /**
- * Add hidden class to the 'other-title' input field
+ * Get element based on the passed selector and remove 'is-hidden' class from it
+ * @param {string} selector - class or id of an element
  */
-function hideOtherTitleField() {
-    document.querySelector('input#other-title').classList.add('is-hidden');
+function showFieldBySelector(selector) {
+    document.querySelector(selector).classList.remove('is-hidden');
 }
 
 
 /**
- * Sets focus on the 'other title' input field
+ * Get element based on the passed selector and set focus on it
+ * @param {string} selector - class or id of an element
  */
-function setFocusOnOtherTitleField() {
-    document.querySelector('input#other-title').focus();
+function setFocusOnElementBySelector(selector) {
+    document.querySelector(selector).focus();
 }
 
 
@@ -47,9 +54,9 @@ function tShirtDesignFunctionality() {
     let tShirtDesignField = document.querySelector('select#design');
     tShirtDesignField.addEventListener('change', e => {
         if (e.target.value == 'select') {
-            hideShirtColorsField();
+            hideFieldBySelector(shirtColorFieldSelector);
         } else {
-            displayShirtColorsField();
+            showFieldBySelector(shirtColorFieldSelector);
             if (e.target.value == 'js puns') {
                 toggleSelectField('color', ['cornflowerblue', 'darkslategrey', 'gold']);
             } else if (e.target.value == 'heart js') {
@@ -78,25 +85,9 @@ function toggleSelectField(id, options) {
 }
 
 
-/**
- * Remove hidden class from the 'shirt-colors' field
- */
-function displayShirtColorsField() {
-    document.querySelector('div#shirt-colors').classList.remove('is-hidden');
-}
-
-
-/**
- * Add hidden class to the 'shirt-colors' field
- */
-function hideShirtColorsField() {
-    document.querySelector('div#shirt-colors').classList.add('is-hidden');
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    hideOtherTitleField();
-    // hideShirtColorsField();
+    hideFieldBySelector(otherTitleFieldSelector);
+    hideFieldBySelector(shirtColorFieldSelector);
     jobRoleOtherTitleFunctionality();
     tShirtDesignFunctionality();
 });
