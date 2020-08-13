@@ -1,12 +1,12 @@
-const otherTitleFieldSelector = 'input#other-title';
-const shirtColorFieldSelector = '#shirt-colors';
-const colorSelectFieldSelector = '#color';
+const otherTitleElementSelector = 'input#other-title';
+const shirtColorElementSelector = '#shirt-colors';
+const colorSelectElementSelector = '#color';
 
 /**
  * Get element based on the passed selector and add 'is-hidden' class to it
  * @param {string} selector - class or id of an element
  */
-function hideFieldBySelector(selector) {
+function hideElementBySelector(selector) {
     document.querySelector(selector).classList.add('is-hidden');
 }
 
@@ -15,7 +15,7 @@ function hideFieldBySelector(selector) {
  * Get element based on the passed selector and remove 'is-hidden' class from it
  * @param {string} selector - class or id of an element
  */
-function showFieldBySelector(selector) {
+function showElementBySelector(selector) {
     document.querySelector(selector).classList.remove('is-hidden');
 }
 
@@ -30,37 +30,37 @@ function setFocusOnElementBySelector(selector) {
 
 
 /**
- * Display 'other title' input field when 'other' option
- * is selected from the 'job role' select field. Hide it when it's not selected.
+ * Display 'other title' input element when 'other' option
+ * is selected from the 'job role' select element. Hide it when it's not selected.
  */
 function jobRoleOtherTitleFunctionality() {
     let jobRoleSelect = document.querySelector('select#title');
     jobRoleSelect.addEventListener('change', e => {
         if (e.target.value == 'other') {
-            showFieldBySelector(otherTitleFieldSelector);
-            setFocusOnElementBySelector(otherTitleFieldSelector);
+            showElementBySelector(otherTitleElementSelector);
+            setFocusOnElementBySelector(otherTitleElementSelector);
         } else {
-            hideFieldBySelector(otherTitleFieldSelector);
+            hideElementBySelector(otherTitleElementSelector);
         }
     });
 }
 
 
 /**
- * Hide, display and configure the options of the 'color' select field based on
- * the values of the 'design' select field
+ * Hide, display and configure the options of the 'color' select element based on
+ * the values of the 'design' select element
  */
 function tShirtDesignFunctionality() {
-    let tShirtDesignField = document.querySelector('select#design');
-    tShirtDesignField.addEventListener('change', e => {
+    let tShirtDesignElement = document.querySelector('select#design');
+    tShirtDesignElement.addEventListener('change', e => {
         if (e.target.value == 'select') {
-            hideFieldBySelector(shirtColorFieldSelector);
+            hideElementBySelector(shirtColorElementSelector);
         } else {
-            showFieldBySelector(shirtColorFieldSelector);
+            showElementBySelector(shirtColorElementSelector);
             if (e.target.value == 'js puns') {
-                toggleSelectField(colorSelectFieldSelector, ['cornflowerblue', 'darkslategrey', 'gold']);
+                toggleSelectElement(colorSelectElementSelector, ['cornflowerblue', 'darkslategrey', 'gold']);
             } else if (e.target.value == 'heart js') {
-                toggleSelectField(colorSelectFieldSelector, ['tomato', 'steelblue', 'dimgrey']);
+                toggleSelectElement(colorSelectElementSelector, ['tomato', 'steelblue', 'dimgrey']);
             }
         }
     });
@@ -68,16 +68,16 @@ function tShirtDesignFunctionality() {
 
 
 /**
- * Display only the passed options of the stated select field. Hide the others
+ * Display only the passed options of the stated select element. Hide the others
  * @param {string} selector - attribute of the select element
  * @param {string[]} options - values of the options that shouldn't be hidden
  */
-function toggleSelectField(selector, options) {
-    let selectField = document.querySelector(selector);
-    if (selectField) {
+function toggleSelectElement(selector, options) {
+    let selectElement = document.querySelector(selector);
+    if (selectElement) {
         let selectedIndices = [];
-        for (let i = 0; i < selectField.options.length; ++i) {
-            let option = selectField.options[i];
+        for (let i = 0; i < selectElement.options.length; ++i) {
+            let option = selectElement.options[i];
             if (options.includes(option.value)) {
                 option.classList.remove('is-hidden');
                 selectedIndices.push(i);
@@ -87,14 +87,14 @@ function toggleSelectField(selector, options) {
         }
 
         // Mark the first non-hidden option as selected
-        selectField.selectedIndex = selectedIndices[0];
+        selectElement.selectedIndex = selectedIndices[0];
     }
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    hideFieldBySelector(otherTitleFieldSelector);
-    hideFieldBySelector(shirtColorFieldSelector);
+    hideElementBySelector(otherTitleElementSelector);
+    hideElementBySelector(shirtColorElementSelector);
     jobRoleOtherTitleFunctionality();
     tShirtDesignFunctionality();
 });
