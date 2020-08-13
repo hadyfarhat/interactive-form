@@ -1,23 +1,6 @@
 const otherTitleFieldSelector = 'input#other-title';
 const shirtColorFieldSelector = '#shirt-colors';
-
-
-/**
- * Display 'other title' input field when 'other' option
- * is selected from the 'job role' select field. Hide it when it's not selected.
- */
-function jobRoleOtherTitleFunctionality() {
-    let jobRoleSelect = document.querySelector('select#title');
-    jobRoleSelect.addEventListener('change', e => {
-        if (e.target.value == 'other') {
-            showFieldBySelector(otherTitleFieldSelector);
-            setFocusOnElementBySelector(otherTitleFieldSelector);
-        } else {
-            hideFieldBySelector(otherTitleFieldSelector);
-        }
-    });
-}
-
+const colorSelectFieldSelector = '#color';
 
 /**
  * Get element based on the passed selector and add 'is-hidden' class to it
@@ -47,6 +30,23 @@ function setFocusOnElementBySelector(selector) {
 
 
 /**
+ * Display 'other title' input field when 'other' option
+ * is selected from the 'job role' select field. Hide it when it's not selected.
+ */
+function jobRoleOtherTitleFunctionality() {
+    let jobRoleSelect = document.querySelector('select#title');
+    jobRoleSelect.addEventListener('change', e => {
+        if (e.target.value == 'other') {
+            showFieldBySelector(otherTitleFieldSelector);
+            setFocusOnElementBySelector(otherTitleFieldSelector);
+        } else {
+            hideFieldBySelector(otherTitleFieldSelector);
+        }
+    });
+}
+
+
+/**
  * Hide, display and configure the options of the 'color' select field based on
  * the values of the 'design' select field
  */
@@ -58,9 +58,9 @@ function tShirtDesignFunctionality() {
         } else {
             showFieldBySelector(shirtColorFieldSelector);
             if (e.target.value == 'js puns') {
-                toggleSelectField('color', ['cornflowerblue', 'darkslategrey', 'gold']);
+                toggleSelectField(colorSelectFieldSelector, ['cornflowerblue', 'darkslategrey', 'gold']);
             } else if (e.target.value == 'heart js') {
-                toggleSelectField('color', ['tomato', 'steelblue', 'dimgrey']);
+                toggleSelectField(colorSelectFieldSelector, ['tomato', 'steelblue', 'dimgrey']);
             }
         }
     });
@@ -69,18 +69,25 @@ function tShirtDesignFunctionality() {
 
 /**
  * Display only the passed options of the stated select field. Hide the others
+ * @param {string} selector - attribute of the select element
+ * @param {string[]} options - values of the options that shouldn't be hidden
  */
-function toggleSelectField(id, options) {
-    let selectField = document.querySelector(`#${id}`);
+function toggleSelectField(selector, options) {
+    let selectField = document.querySelector(selector);
     if (selectField) {
+        let selectedIndices = [];
         for (let i = 0; i < selectField.options.length; ++i) {
             let option = selectField.options[i];
             if (options.includes(option.value)) {
                 option.classList.remove('is-hidden');
+                selectedIndices.push(i);
             } else {
                 option.classList.add('is-hidden');
             }
         }
+
+        // Mark the first non-hidden option as selected
+        selectField.selectedIndex = selectedIndices[0];
     }
 }
 
