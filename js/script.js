@@ -228,10 +228,10 @@ function timeSlotsCollide(timeSlots1, timeSlots2) {
 function activateOrDisableActivity(disable, activity) {
     if (disable) {
         activity.parentNode.classList.add('disabled');
-        disable.setAttribute('disabled', true);
+        activity.setAttribute('disabled', true);
     } else {
         activity.parentNode.classList.remove('disabled');
-        disable.removeAttribute('disabled');
+        activity.removeAttribute('disabled');
     }
 }
 
