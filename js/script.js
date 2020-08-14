@@ -162,6 +162,88 @@ function getTimeFromDayAndTimeStr(dayAndTime) {
 }
 
 
+/**
+ * Loops through all of the activities and returns an array of activites 
+ * that have the same day as the day parameter
+ * @param {string} day - string representation of a day
+ * @return {string[]} an array of days
+ */
+function getAllActivitiesByDay(day) {
+    let activitiesElement = document.querySelector('fieldset.activities');
+    let activities = activitiesElement.querySelectorAll('input[type="checkbox"]');
+    let foundActivities = [];
+    for (let i = 0; i < activities.length; ++i) {
+        let activity = activities[i];
+        if (activity.dataset.dayAndTime) {
+            let activityDay = getDayFromDayAndTimeStr(activity.dataset.dayAndTime);
+            if (activityDay == day) foundActivities.push(activity);
+        } 
+    }
+
+    return foundActivities;
+}
+
+
+/**
+ * Calculates the time slots of the given time
+ * @example
+ * // returns ['11-12', '12-13', '13-14', '14-15']
+ * getTimeSlotsFromDayAndTime('Tuesday 11am-3pm')
+ * @param {string} dayAndTime - day and time string format
+ * @return {string[]} array of time slots
+ */
+function getTimeSlotsFromDayAndTime(dayAndTime) {
+    let day = getDayFromDayAndTimeStr(dayAndTime);
+    let time = getTimeFromDayAndTimeStr(dayAndTime);
+    let startTime = change12to24HourFormat(time[0]);
+    let endTime = change12to24HourFormat(time[1]);
+    let timeSlots = getTimeSlotsBetweenRange(startTime, endTime);
+
+    return timeSlots;
+}
+
+
+/**
+ * Checks if the two given time slots arrays have elements in common
+ * @param {string[]} timeSlots1 
+ * @param {string[]} timeSlots2 
+ * @return {boolean} whether the two arrays have elements in common or not
+ */
+function timeSlotsCollide(timeSlots1, timeSlots2) {
+    for (let i = 0; i < timeSlots1.length; ++i) {
+        if (timeSlots2.includes(timeSlots1[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+function activityRegistrationFunctionality() {
+    let activitiesElement = document.querySelector('fieldset.activities');
+    activitiesElement.addEventListener('change', e => {
+        if (e.target.tagName == 'INPUT' && e.target.dataset.dayAndTime) {
+            let currentActivity = e.target;
+            let currentActivityDay = getDayFromDayAndTimeStr(currentActivity.dataset.dayAndTime);
+            let currentActivityTimeSlots = getTimeSlotsFromDayAndTime(currentActivity.dataset.dayAndTime);
+            
+            let activitiesOnSameDay = getAllActivitiesByDay(currentActivityDay);
+            for (let i = 0; i < activitiesOnSameDay.length; ++i) {
+                if (activitiesOnSameDay[i] == currentActivity) continue;
+                let dayAndTime = activitiesOnSameDay[i].dataset.dayAndTime;
+                let timeSlots = getTimeSlotsFromDayAndTime(dayAndTime);
+                if (timeSlotsCollide(timeSlots, currentActivityTimeSlots)) {
+                    // disable current activity
+                    console.log('the following activity collides with time slots');
+                    console.log(activitiesOnSameDay[i]);
+                }
+            }
+        }
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     hideElementBySelector(otherTitleElementSelector);
     hideElementBySelector(shirtColorElementSelector);
