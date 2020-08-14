@@ -222,11 +222,11 @@ function timeSlotsCollide(timeSlots1, timeSlots2) {
 
 /**
  * Activate or disable the passed activity
- * @param {boolean} disable - determine whether to disable the activity or not
+ * @param {boolean} checked - determine whether to disable the activity or not
  * @param {input HTML element} activity - activity input checkbox element
  */
-function activateOrDisableActivity(disable, activity) {
-    if (disable) {
+function activateOrDisableActivity(checked, activity) {
+    if (checked) {
         activity.parentNode.classList.add('disabled');
         activity.setAttribute('disabled', true);
     } else {
@@ -240,9 +240,9 @@ function activateOrDisableActivity(disable, activity) {
  * Toggle other activities based on the state of the passed activity
  * @param {input HTML element} currentActivity - activity input checkbox element
  * @param {string} currentActivityDay - day of the passed activity
- * @param {boolean} disable - determine whether to disable the activity or not
+ * @param {boolean} checked - determine whether to disable the activity or not
  */
-function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, disable) {
+function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, checked) {
     let currentActivityTimeSlots = getTimeSlotsFromDayAndTime(currentActivity.dataset.dayAndTime);
     let activitiesOnSameDay = getAllActivitiesByDay(currentActivityDay);
 
@@ -253,7 +253,7 @@ function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay
         let timeSlots = getTimeSlotsFromDayAndTime(dayAndTime);
 
         if (timeSlotsCollide(timeSlots, currentActivityTimeSlots)) {
-            activateOrDisableActivity(disable, activitiesOnSameDay[i]);
+            activateOrDisableActivity(checked, activitiesOnSameDay[i]);
         }
     }
 }
@@ -268,8 +268,8 @@ function activityRegistrationFunctionality() {
         if (e.target.tagName == 'INPUT' && e.target.dataset.dayAndTime) {
             let currentActivity = e.target;
             let currentActivityDay = getDayFromDayAndTimeStr(currentActivity.dataset.dayAndTime);
-            let disable = (currentActivity.checked) ? true : false;
-            toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, disable);
+            let checked = (currentActivity.checked) ? true : false;
+            toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, checked);
         }
     });
 }
