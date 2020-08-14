@@ -220,25 +220,56 @@ function timeSlotsCollide(timeSlots1, timeSlots2) {
 }
 
 
+/**
+ * Activate or disable the passed activity
+ * @param {boolean} disable - determine whether to disable the activity or not
+ * @param {input HTML element} activity - activity input checkbox element
+ */
+function activateOrDisableActivity(disable, activity) {
+    if (disable) {
+        activity.parentNode.classList.add('disabled');
+        disable.setAttribute('disabled', true);
+    } else {
+        activity.parentNode.classList.remove('disabled');
+        disable.removeAttribute('disabled');
+    }
+}
+
+
+/**
+ * Toggle other activities based on the state of the passed activity
+ * @param {input HTML element} currentActivity - activity input checkbox element
+ * @param {string} currentActivityDay - day of the passed activity
+ * @param {boolean} disable - determine whether to disable the activity or not
+ */
+function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, disable) {
+    let currentActivityTimeSlots = getTimeSlotsFromDayAndTime(currentActivity.dataset.dayAndTime);
+    let activitiesOnSameDay = getAllActivitiesByDay(currentActivityDay);
+
+    for (let i = 0; i < activitiesOnSameDay.length; ++i) {
+        if (activitiesOnSameDay[i] == currentActivity) continue;
+
+        let dayAndTime = activitiesOnSameDay[i].dataset.dayAndTime;
+        let timeSlots = getTimeSlotsFromDayAndTime(dayAndTime);
+
+        if (timeSlotsCollide(timeSlots, currentActivityTimeSlots)) {
+            activateOrDisableActivity(disable, activitiesOnSameDay[i]);
+        }
+    }
+}
+
+
+/**
+ * Activate or Disable competing activities based on the checked activity
+ */
 function activityRegistrationFunctionality() {
     let activitiesElement = document.querySelector('fieldset.activities');
     activitiesElement.addEventListener('change', e => {
         if (e.target.tagName == 'INPUT' && e.target.dataset.dayAndTime) {
             let currentActivity = e.target;
             let currentActivityDay = getDayFromDayAndTimeStr(currentActivity.dataset.dayAndTime);
-            let currentActivityTimeSlots = getTimeSlotsFromDayAndTime(currentActivity.dataset.dayAndTime);
-            
-            let activitiesOnSameDay = getAllActivitiesByDay(currentActivityDay);
-            for (let i = 0; i < activitiesOnSameDay.length; ++i) {
-                if (activitiesOnSameDay[i] == currentActivity) continue;
-                let dayAndTime = activitiesOnSameDay[i].dataset.dayAndTime;
-                let timeSlots = getTimeSlotsFromDayAndTime(dayAndTime);
-                if (timeSlotsCollide(timeSlots, currentActivityTimeSlots)) {
-                    // disable current activity
-                    console.log('the following activity collides with time slots');
-                    console.log(activitiesOnSameDay[i]);
-                }
-            }
+            let disable = (currentActivity.checked) ? true : false;
+            toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, disable);
         }
     });
 }

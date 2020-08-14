@@ -106,6 +106,10 @@ input[type="radio"] {
 	display: inline-block;
 }
 
+label.disabled {
+	text-decoration: line-through;
+}
+
 button {
 	color: #fff;
 	padding: .55em 1.25em;
