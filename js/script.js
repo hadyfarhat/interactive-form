@@ -240,7 +240,7 @@ function activateOrDisableActivity(checked, activity) {
  * Toggle other activities based on the state of the passed activity
  * @param {input HTML element} currentActivity - activity input checkbox element
  * @param {string} currentActivityDay - day of the passed activity
- * @param {boolean} checked - determine whether to disable the activity or not
+ * @param {boolean} checked - activity input element is checked or not
  */
 function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, checked) {
     let currentActivityTimeSlots = getTimeSlotsFromDayAndTime(currentActivity.dataset.dayAndTime);
@@ -260,16 +260,37 @@ function toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay
 
 
 /**
+ * If the passed activity is checked, add it's cost to the total cost.
+ * If it's not, subtract its cost from the total cost.
+ * @param {int} currentActivityCost - cost of the passed activity
+ * @param {boolean} checked - activity input element is checked or not
+ */
+function calculateActivitiesTotalCost(currentActivityCost, checked) {
+    let totalCostElement = document.querySelector('#activities-total-cost');
+    let totalCost = parseInt(totalCostElement.textContent);
+    (checked) ? totalCost += currentActivityCost : totalCost -= currentActivityCost;
+    totalCostElement.textContent = totalCost;
+}
+
+
+/**
  * Activate or Disable competing activities based on the checked activity
+ * Caculate total cost of the activites
  */
 function activityRegistrationFunctionality() {
     let activitiesElement = document.querySelector('fieldset.activities');
     activitiesElement.addEventListener('change', e => {
-        if (e.target.tagName == 'INPUT' && e.target.dataset.dayAndTime) {
+        if (e.target.tagName == 'INPUT') {
             let currentActivity = e.target;
-            let currentActivityDay = getDayFromDayAndTimeStr(currentActivity.dataset.dayAndTime);
             let checked = (currentActivity.checked) ? true : false;
-            toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, checked);
+
+            if (currentActivity.dataset.dayAndTime) {
+                let currentActivityDay = getDayFromDayAndTimeStr(currentActivity.dataset.dayAndTime);
+                toggleActivitiesThatAreOnTheSameDay(currentActivity, currentActivityDay, checked);
+            }
+            
+            let currentActivityCost = parseInt(currentActivity.dataset.cost);
+            calculateActivitiesTotalCost(currentActivityCost, checked);
         }
     });
 }
