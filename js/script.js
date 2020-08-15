@@ -306,37 +306,36 @@ function strIsNotEmpty(str) {
 
 
 /**
- * Display the given error message above the given HTML element
- * or hide (if any) the current existing error message
- * @param {HTML element} element
+ * Display the given error element with the given error message if
+ * displayError is true. Otherwise, hide them.
+ * @param {HTML element} errorElement - error element to be displayed if invalid
  * @param {string} message - error message that will be displayed
  * @param {boolean} displayError - display error message or hide it
  */
-function toggleValidationErrorMessageForElement(element, message, displayError) {
-    let error = element.previousElementSibling;
+function toggleValidationErrorMessageForElement(errorElement, message, displayError) {
     if (displayError) {
-        error.firstElementChild.textContent = message;
-        error.classList.remove('is-hidden');
+        errorElement.firstElementChild.textContent = message;
+        errorElement.classList.remove('is-hidden');
     } else {
-        error.firstElementChild.textContent = "";
-        error.classList.add('is-hidden');
+        errorElement.firstElementChild.textContent = "";
+        errorElement.classList.add('is-hidden');
     }
 }
 
 
 /**
- * Validates the given HTML element based on the given validation function.
- * If invalid, the given error message will be displayed.
- * @param {HTML element} element 
- * @param {function} elementValidation - element validation function
+ * Calls the given validation function. If it returns true, display the given
+ * error element along with its error message. Otherwise, hide them.
+ * @param {function} elementValidation - validation function
+ * @param {HTML element} element - error element to be displayed if invalid
  * @param {string} errorMessage - message to be displayed if validation fails
  */
-function validateElemenet(element, elementValidation, errorMessage) {
+function validateElemenet(elementValidation, errorElement, errorMessage) {
     const valid = elementValidation();
     if (!valid) {
-        toggleValidationErrorMessageForElement(element, errorMessage, true);
+        toggleValidationErrorMessageForElement(errorElement, errorMessage, true);
     } else {
-        toggleValidationErrorMessageForElement(element, '', false);
+        toggleValidationErrorMessageForElement(errorElement, '', false);
     }
 }
 
@@ -369,10 +368,10 @@ function nameFieldIsValid() {
  * Name Field Validation
  */
 function validateNameField() {
-    const name = document.querySelector('input#name');
+    const nameErrorElement = document.querySelector('div.name-error');
     validateElemenet(
-        name,
         nameFieldIsValid,
+        nameErrorElement,
         'Name should not be empty'
     );
 }
@@ -393,12 +392,37 @@ function emailFieldIsValid() {
  * Email Field Validation
  */
 function validateEmailField() {
-    const email = document.querySelector('input#mail');
+    const emailErrorElement = document.querySelector('div.mail-error');
     validateElemenet(
-        email,
         emailFieldIsValid,
+        emailErrorElement,
         'Email should be in the format: test@example.com'
     );
+}
+
+
+/**
+ * Checks if at least one checkbox is checked
+ */
+function activityRegistrationIsValid() {
+    const activities = document.querySelector('fieldset.activities');
+    const checkboxes = activities.querySelectorAll('input[type="checkbox"]');
+    for (let i = 0; i < checkboxes.length; ++i) {
+        if (checkboxes[i].checked) return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * Validate Activity Registration
+ * 
+ */
+function validateActivityRegistration() {
+    const activities = document.querySelector('fieldset.activities');
+    
+    
 }
 
 
@@ -420,6 +444,11 @@ function validateFormOnSubmit() {
         if (!nameFieldIsValid()) {
             formIsValid = false;
             validateNameField();
+        }
+
+        if (!emailFieldIsValid()) {
+            formIsValid = false;
+            validateEmailField();
         }
 
         // email field
@@ -444,6 +473,8 @@ function formValidationFunctionality() {
     
     const email = document.querySelector('input#mail');
     validateElemenetOnChange(email, validateEmailField);
+
+    validateActivityRegistration();
     
     validateFormOnSubmit();
 }
