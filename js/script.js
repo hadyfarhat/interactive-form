@@ -403,17 +403,6 @@ function validateEmailField() {
 
 
 /**
- * Trigger name feld validation on input change
- */
-function validateEmailFieldOnChange() {
-    const email = document.querySelector('input#mail');
-    email.addEventListener('change', () => {
-        validateEmailField();
-    });
-}
-
-
-/**
  * Validate the form on submit. Validation includes:
  *  - name field validation
  *  - email field validation
