@@ -96,12 +96,6 @@
       <!-- Activities -->
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-
-        <div class="error is-hidden">
-          <span class="message">Name field should not be empty</span>
-        </div>
-
-
         <label>
           <input type="checkbox" name="all" data-cost="200"> Main Conference — $200
         </label>
@@ -136,6 +130,10 @@
 
         <div>
           <span>Total: $<span id="activities-total-cost">0</span></span>
+        </div>
+
+        <div class="error activities-error is-hidden">
+          <span class="message">At least one activity should be checked</span>
         </div>
           
       </fieldset>

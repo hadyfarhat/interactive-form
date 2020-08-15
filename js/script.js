@@ -420,9 +420,12 @@ function activityRegistrationIsValid() {
  * 
  */
 function validateActivityRegistration() {
-    const activities = document.querySelector('fieldset.activities');
-    
-    
+    const activitiesErrorElement = document.querySelector('div.activities-error');
+    validateElemenet(
+        activityRegistrationIsValid,
+        activitiesErrorElement,
+        'At least one activity should be checked'
+    );
 }
 
 
@@ -451,7 +454,10 @@ function validateFormOnSubmit() {
             validateEmailField();
         }
 
-        // email field
+        if (!activityRegistrationIsValid()) {
+            validateEmailField = false;
+            validateActivityRegistration();
+        }
         // activity registration checkboxes
         // credit card number
         // zip code
@@ -474,7 +480,8 @@ function formValidationFunctionality() {
     const email = document.querySelector('input#mail');
     validateElemenetOnChange(email, validateEmailField);
 
-    validateActivityRegistration();
+    const activities = document.querySelector('.activities');
+    validateElemenetOnChange(activities, validateActivityRegistration);
     
     validateFormOnSubmit();
 }
