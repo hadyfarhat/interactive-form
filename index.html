@@ -19,14 +19,26 @@
               
       <fieldset>         
         <legend>Basic Info</legend>
-        
+
+        <!-- Name -->
         <label for="name">Name:</label>
+        <div class="error is-hidden">
+          <span class="message">Name field should not be empty</span>
+        </div>
         <input type="text" id="name" name="user-name" autofocus>
-        
+
+        <!-- Email -->
         <label for="mail">Email:</label>
+        <div class="error is-hidden">
+          <span class="message">Name field should not be empty</span>
+        </div>
         <input type="email" id="mail" name="user-email">
-        
+
+        <!-- Job Role -->
         <label for="title">Job Role</label>
+        <div class="error is-hidden">
+          <span class="message">Name field should not be empty</span>
+        </div>
         <select id="title" name="user-title">
           <option value="full-stack js developer">Full Stack JavaScript Developer</option>
           <option value="front-end developer">Front End Developer</option>
@@ -36,6 +48,10 @@
           <option value="other">Other</option>  
         </select>           
 
+        <!-- Other Job Role -->
+        <div class="error is-hidden">
+          <span class="message">Name field should not be empty</span>
+        </div>
         <input type="text" id="other-title" placeholder="Your Job Role">
       </fieldset>
 

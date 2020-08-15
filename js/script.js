@@ -93,7 +93,7 @@ function tShirtDesignFunctionality() {
 
 
 /**
- * Change 12 hour format to 24 hour format. ex 1pm changes to 13
+ * Change 12 hour format to 24 hour format.
  * @example
  * // returns 13
  * change12to24HourFormat('1pm')
@@ -296,6 +296,112 @@ function activityRegistrationFunctionality() {
 }
 
 
+/**
+ * Checks if the given string has a length greater than 0
+ * @param {string} str
+ */
+function strIsNotEmpty(str) {
+    return str.trim().length > 0;
+}
+
+
+/**
+ * Display the given error message above the given HTML element
+ * or hide (if any) the current existing error message
+ * @param {HTML element} element
+ * @param {string} message - error message that will be displayed
+ * @param {boolean} displayError - display error message or hide it
+ */
+function toggleValidationErrorMessageForElement(element, message, displayError) {
+    let error = element.previousElementSibling;
+    if (displayError) {
+        error.firstElementChild.textContent = message;
+        error.classList.remove('is-hidden');
+    } else {
+        error.firstElementChild.textContent = "";
+        error.classList.add('is-hidden');
+    }
+}
+
+
+/**
+ * Determines if the name Field is valid by checking if
+ *  - the length of the name is greater than 0
+ * @return {boolean} if it's valid or not
+ */
+function nameFieldIsValid() {
+    const name = document.querySelector('input#name');
+    return strIsNotEmpty(name.value);
+}
+
+
+/**
+ * Name Field Validation
+ */
+function validateNameField() {
+    const name = document.querySelector('input#name');
+    valid = nameFieldIsValid();
+    if (!valid) {
+        toggleValidationErrorMessageForElement(name, 'Name should not be blank', true);
+    } else {
+        toggleValidationErrorMessageForElement(name, '', false);
+    }
+}
+
+
+/**
+ * Trigger name feld validation on input change
+ */
+function validateNameFieldOnChange() {
+    const name = document.querySelector('input#name');
+    name.addEventListener('change', () => {
+        validateNameField();
+    });
+}
+
+
+/**
+ * Validate the form on submit. Validation includes:
+ *  - name field validation
+ *  - email field validation
+ *  - activity registration validation
+ *  if credit card payment is selected:
+ *  - credit card number validation
+ *  - zip code validation
+ *  - cvv validation
+ */
+function validateFormOnSubmit() {
+    const form = document.querySelector('form');
+    let formIsValid = true;
+
+    form.addEventListener('submit', e => {
+        if (!nameFieldIsValid()) {
+            formIsValid = false;
+            validateNameField();
+        }
+
+        // email field
+        // activity registration checkboxes
+        // credit card number
+        // zip code
+        // cvv
+
+        if (!formIsValid) {
+            e.preventDefault();
+        }
+    });
+}
+
+
+/**
+ * Main method for validating the form
+ */
+function formValidationFunctionality() {
+    validateNameFieldOnChange();
+    validateFormOnSubmit();
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     hideElementBySelector(otherTitleElementSelector);
     hideElementBySelector(shirtColorElementSelector);
@@ -303,4 +409,5 @@ document.addEventListener('DOMContentLoaded', () => {
     jobRoleOtherTitleFunctionality();
     tShirtDesignFunctionality();
     activityRegistrationFunctionality();
+    formValidationFunctionality();
 });
