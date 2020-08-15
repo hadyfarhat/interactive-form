@@ -325,13 +325,43 @@ function toggleValidationErrorMessageForElement(element, message, displayError) 
 
 
 /**
- * Determines if the name Field is valid by checking if
- *  - the length of the name is greater than 0
+ * Validates the given HTML element based on the given validation function.
+ * If invalid, the given error message will be displayed.
+ * @param {HTML element} element 
+ * @param {function} elementValidation - element validation function
+ * @param {string} errorMessage - message to be displayed if validation fails
+ */
+function validateElemenet(element, elementValidation, errorMessage) {
+    const valid = elementValidation();
+    if (!valid) {
+        toggleValidationErrorMessageForElement(element, errorMessage, true);
+    } else {
+        toggleValidationErrorMessageForElement(element, '', false);
+    }
+}
+
+
+/**
+ * Adds change event listener to the given element. On change, the given
+ * validation function will be called.
+ * @param {HTML element} element - element that will be validated
+ * @param {function} elementValidation - element validation function
+ */
+function validateElemenetOnChange(element, elementValidation) {
+    element.addEventListener('change', () => {
+        elementValidation();
+    });
+}
+
+
+/**
+ * Checks if the name Field is valid by checking the 
+ * length of the name is greater than 0
  * @return {boolean} if it's valid or not
  */
 function nameFieldIsValid() {
     const name = document.querySelector('input#name');
-    return strIsNotEmpty(name.value);
+    return strIsNotEmpty(name.value.trim());
 }
 
 
@@ -340,22 +370,45 @@ function nameFieldIsValid() {
  */
 function validateNameField() {
     const name = document.querySelector('input#name');
-    valid = nameFieldIsValid();
-    if (!valid) {
-        toggleValidationErrorMessageForElement(name, 'Name should not be blank', true);
-    } else {
-        toggleValidationErrorMessageForElement(name, '', false);
-    }
+    validateElemenet(
+        name,
+        nameFieldIsValid,
+        'Name should not be empty'
+    );
+}
+
+
+/**
+ * Checks if the email field value matches the stated regex expression
+ * @return {boolean} if email value matches regex or not
+ */
+function emailFieldIsValid() {
+    const email = document.querySelector('input#mail');
+    const regex = /^[^@.]+@[^@.]+.[^@.]+$/;
+    return regex.test(email.value.trim());
+}
+
+
+/**
+ * Email Field Validation
+ */
+function validateEmailField() {
+    const email = document.querySelector('input#mail');
+    validateElemenet(
+        email,
+        emailFieldIsValid,
+        'Email should be in the format: test@example.com'
+    );
 }
 
 
 /**
  * Trigger name feld validation on input change
  */
-function validateNameFieldOnChange() {
-    const name = document.querySelector('input#name');
-    name.addEventListener('change', () => {
-        validateNameField();
+function validateEmailFieldOnChange() {
+    const email = document.querySelector('input#mail');
+    email.addEventListener('change', () => {
+        validateEmailField();
     });
 }
 
@@ -397,7 +450,12 @@ function validateFormOnSubmit() {
  * Main method for validating the form
  */
 function formValidationFunctionality() {
-    validateNameFieldOnChange();
+    const name = document.querySelector('input#name');
+    validateElemenetOnChange(name, validateNameField);
+    
+    const email = document.querySelector('input#mail');
+    validateElemenetOnChange(email, validateEmailField);
+    
     validateFormOnSubmit();
 }
 
