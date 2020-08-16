@@ -371,12 +371,12 @@ function toggleValidationErrorMessageForElement(errorElement, message, displayEr
 /**
  * Calls the given validation function. If it returns true, display the given
  * error element along with its error message. Otherwise, hide them.
- * @param {function} elementValidation - validation function
+ * @param {function} elementIsValid - validation function
  * @param {HTML element} element - error element to be displayed if invalid
  * @param {string} errorMessage - message to be displayed if validation fails
  */
-function validateElemenet(elementValidation, errorElement, errorMessage) {
-    const valid = elementValidation();
+function validateElemenet(elementIsValid, errorElement, errorMessage) {
+    const valid = elementIsValid();
     if (!valid) {
         toggleValidationErrorMessageForElement(errorElement, errorMessage, true);
     } else {
