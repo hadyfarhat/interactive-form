@@ -418,7 +418,7 @@ function validateNameField() {
  */
 function emailFieldIsValid() {
     const email = document.querySelector('input#mail');
-    const regex = /^[^@.]+@[^@.]+.[^@.]+$/;
+    const regex = /^[^@.]+@[^@.]+\.[^@.]+$/;
     return regex.test(email.value.trim());
 }
 
