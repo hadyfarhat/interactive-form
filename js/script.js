@@ -297,6 +297,30 @@ function activityRegistrationFunctionality() {
 
 
 /**
+ * Hide all payment options except for the one stated below
+ * @param {string} option - class name of the payment option to be used/selected
+ */
+function setPaymentOption(option) {
+    const selectPayment = document.querySelector('#payment');
+    for (let i = 0; i < selectPayment.options.length; ++i) {
+        if (selectPayment.options[i].value == option) {
+            selectPayment.options[i].selected = true;
+            break;
+        }
+    }
+
+    const paymentMethods = document.querySelectorAll('.payment-option');
+    for (let i = 0; i < paymentMethods.length; ++i) {
+        if (paymentMethods[i].id != option) {
+            paymentMethods[i].classList.add('is-hidden');
+        } else {
+            paymentMethods[i].classList.remove('is-hidden');
+        }
+    }
+}
+
+
+/**
  * Checks if the given string has a length greater than 0
  * @param {string} str
  */
@@ -490,6 +514,7 @@ function formValidationFunctionality() {
 document.addEventListener('DOMContentLoaded', () => {
     hideElementBySelector(otherTitleElementSelector);
     hideElementBySelector(shirtColorElementSelector);
+    setPaymentOption('credit-card');
 
     jobRoleOtherTitleFunctionality();
     tShirtDesignFunctionality();
