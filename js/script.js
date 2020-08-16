@@ -503,49 +503,49 @@ const validations = {
         errorElement: document.querySelector('div.mail-error'),
         elementIsValid: emailFieldIsValid,
         errorMessage: 'Email should be in the format: test@example.com',
-        type: "non-payment"
+        isPayment: false
     },
     jobRoleOtherTitle: {
         html: document.querySelector('input#other-title'),
         errorElement: document.querySelector('div.other-title-error'),
         elementIsValid: jobRoleIsValid,
         errorMessage: 'Job Role field should not be empty',
-        type: "non-payment"
+        isPayment: false
     },
     tShirtDesign: {
         html: document.querySelector('select#design'),
         errorElement: document.querySelector('div.design-error'),
         elementIsValid: tShirtDesignIsValid,
         errorMessage: 'You should select a t-shirt design theme',
-        type: "non-payment"
+        isPayment: false
     },
     activityRegistration: {
         html: document.querySelector('.activities'),
         errorElement: document.querySelector('div.activities-error'),
         elementIsValid: activityRegistrationIsValid,
         errorMessage: 'At least one activity should be checked',
-        type: "non-payment"
+        isPayment: false
     },
     cardNumber: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-error'),
         elementIsValid: cardNumberIsValid,
         errorMessage: 'Card number should be 13-16 digits long',
-        type: "payment"
+        isPayment: true
     },
     zipCode: {
         html: document.querySelector('input#zip'),
         errorElement: document.querySelector('div.zip-error'),
         elementIsValid: zipCodeIsValid,
         errorMessage: 'Zip Code field should be 5 digits long',
-        type: "payment"
+        isPayment: true
     },
     cvv: {
         html: document.querySelector('input#cvv'),
         errorElement: document.querySelector('div.cvv-error'),
         elementIsValid: cvvIsValid,
         errorMessage: 'CVV field should be 3 digits long',
-        type: "payment"
+        isPayment: true
     }
 };
 
@@ -561,7 +561,7 @@ function validateFormOnSubmit() {
         formIsValid = true;
         for (let element in validations) {
             let validate = true;
-            if (validations[element]['type'] == 'payment') {
+            if (validations[element]['isPayment']) {
                 validate = 
                     (paymentOptionSelected() == 'credit-card') ? true : false
             }
