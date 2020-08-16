@@ -478,6 +478,22 @@ function activityRegistrationIsValid() {
 }
 
 
+function validateTshirtDesign() {
+    const designErrorElement = document.querySelector('div.design-error');
+    validateElemenet(
+        tShirtDesignIsValid,
+        designErrorElement,
+        'You should select a t-shirt design theme'
+    );
+}
+
+
+function tShirtDesignIsValid() {
+    const design = document.querySelector('select#design');
+    return (design.value == 'select') ? false : true;
+}
+
+
 /**
  * Validate Activity Registration
  * 
@@ -524,6 +540,11 @@ function validateFormOnSubmit() {
             hideElementBySelector(jobRoleOtherTitleErrorElementSelector);
         }
 
+        if (!tShirtDesignIsValid()) {
+            formIsValid = false;
+            validateTshirtDesign();
+        }
+
         if (!activityRegistrationIsValid()) {
             formIsValid = false;
             validateActivityRegistration();
@@ -552,6 +573,9 @@ function formValidationFunctionality() {
 
     const otherTitle = document.querySelector('input#other-title');
     validateElemenetOnChange(otherTitle, validateJobRole);
+
+    const tShirtDesign = document.querySelector('select#design');
+    validateElemenetOnChange(tShirtDesign, validateTshirtDesign);
 
     const activities = document.querySelector('.activities');
     validateElemenetOnChange(activities, validateActivityRegistration);
