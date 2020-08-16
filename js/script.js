@@ -543,20 +543,6 @@ function cvvIsValid() {
 }
 
 
-/**
- * Validate Activity Registration
- * 
- */
-function validateActivityRegistration() {
-    const activitiesErrorElement = document.querySelector('div.activities-error');
-    validateElemenet(
-        activityRegistrationIsValid,
-        activitiesErrorElement,
-        'At least one activity should be checked'
-    );
-}
-
-
 const validations = {
     name: {
         html: document.querySelector('input#name'),
@@ -581,6 +567,12 @@ const validations = {
         errorElement: document.querySelector('div.design-error'),
         elementIsValid: tShirtDesignIsValid,
         errorMessage: 'You should select a t-shirt design theme'
+    },
+    activityRegistration: {
+        html: document.querySelector('.activities'),
+        errorElement: document.querySelector('div.activities-error'),
+        elementIsValid: activityRegistrationIsValid,
+        errorMessage: 'At least one activity should be checked'
     }
 };
 
@@ -601,11 +593,6 @@ function validateFormOnSubmit() {
                     validations[element]['errorMessage']
                 )
             }
-        }
-
-        if (!activityRegistrationIsValid()) {
-            formIsValid = false;
-            validateActivityRegistration();
         }
 
         if (paymentOptionSelected() == 'credit-card') {
@@ -644,9 +631,6 @@ function formValidationFunctionality() {
             validations[element]['errorMessage']
         )
     }
-
-    const activities = document.querySelector('.activities');
-    validateElemenetOnChange(activities, validateActivityRegistration);
 
     if (paymentOptionSelected() == 'credit-card') {
         const cardNumber = document.querySelector('input#cc-num');
