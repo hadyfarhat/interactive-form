@@ -321,6 +321,17 @@ function setPaymentOption(option) {
 
 
 /**
+ * Add change event listener to the payment option drop down menu
+ */
+function paymentOptionFunctionality() {
+    const selectPayment = document.querySelector('#payment');
+    selectPayment.addEventListener('change', e => {
+        setPaymentOption(e.target.value);
+    });
+}
+
+
+/**
  * Checks if the given string has a length greater than 0
  * @param {string} str
  */
@@ -520,4 +531,5 @@ document.addEventListener('DOMContentLoaded', () => {
     tShirtDesignFunctionality();
     activityRegistrationFunctionality();
     formValidationFunctionality();
+    paymentOptionFunctionality();
 });
