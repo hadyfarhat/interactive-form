@@ -548,31 +548,57 @@ const validations = {
         html: document.querySelector('input#name'),
         errorElement: document.querySelector('div.name-error'),
         elementIsValid: nameFieldIsValid,
-        errorMessage: 'Name should not be empty'
+        errorMessage: 'Name should not be empty',
+        type: "non-payment"
     }, 
     email: {
         html: document.querySelector('input#mail'),
         errorElement: document.querySelector('div.mail-error'),
         elementIsValid: emailFieldIsValid,
-        errorMessage: 'Email should be in the format: test@example.com'
+        errorMessage: 'Email should be in the format: test@example.com',
+        type: "non-payment"
     },
     jobRoleOtherTitle: {
         html: document.querySelector('input#other-title'),
         errorElement: document.querySelector('div.other-title-error'),
         elementIsValid: jobRoleIsValid,
-        errorMessage: 'Job Role field should not be empty'
+        errorMessage: 'Job Role field should not be empty',
+        type: "non-payment"
     },
     tShirtDesign: {
         html: document.querySelector('select#design'),
         errorElement: document.querySelector('div.design-error'),
         elementIsValid: tShirtDesignIsValid,
-        errorMessage: 'You should select a t-shirt design theme'
+        errorMessage: 'You should select a t-shirt design theme',
+        type: "non-payment"
     },
     activityRegistration: {
         html: document.querySelector('.activities'),
         errorElement: document.querySelector('div.activities-error'),
         elementIsValid: activityRegistrationIsValid,
-        errorMessage: 'At least one activity should be checked'
+        errorMessage: 'At least one activity should be checked',
+        type: "non-payment"
+    },
+    cardNumber: {
+        html: document.querySelector('input#cc-num'),
+        errorElement: document.querySelector('div.card-number-error'),
+        elementIsValid: cardNumberIsValid,
+        errorMessage: 'Card number should be 13-16 digits long',
+        type: "payment"
+    },
+    zipCode: {
+        html: document.querySelector('input#zip'),
+        errorElement: document.querySelector('div.zip-error'),
+        elementIsValid: zipCodeIsValid,
+        errorMessage: 'Zip Code field should be 5 digits long',
+        type: "payment"
+    },
+    cvv: {
+        html: document.querySelector('input#cvv'),
+        errorElement: document.querySelector('div.cvv-error'),
+        elementIsValid: cvvIsValid,
+        errorMessage: 'CVV field should be 3 digits long',
+        type: "payment"
     }
 };
 
@@ -585,30 +611,22 @@ function validateFormOnSubmit() {
     let formIsValid = true;
 
     form.addEventListener('submit', e => {
+        formIsValid = true;
         for (let element in validations) {
-            if (!validations[element]['elementIsValid']()) {
-                validateElemenet(
-                    validations[element]['elementIsValid'],
-                    validations[element]['errorElement'],
-                    validations[element]['errorMessage']
-                )
+            let validate = true;
+            if (validations[element]['type'] == 'payment') {
+                validate = 
+                    (paymentOptionSelected() == 'credit-card') ? true : false
             }
-        }
-
-        if (paymentOptionSelected() == 'credit-card') {
-            if (!cardNumberIsValid()) {
-                formIsValid = false;
-                validateCardNumber();
-            }
-
-            if (!zipCodeIsValid()) {
-                formIsValid = false;
-                validateZipCode();
-            }
-
-            if (!cvvIsValid()) {
-                formIsValid = false;
-                validateCVV();
+            if (validate) {
+                if (!validations[element]['elementIsValid']()) {
+                    formIsValid = false;
+                    validateElemenet(
+                        validations[element]['elementIsValid'],
+                        validations[element]['errorElement'],
+                        validations[element]['errorMessage']
+                    )
+                }
             }
         }
 
@@ -624,23 +642,19 @@ function validateFormOnSubmit() {
  */
 function formValidationFunctionality() {
     for (let element in validations) {
-        validateElemenetOnChange(
-            validations[element]['html'],
-            validations[element]['elementIsValid'],
-            validations[element]['errorElement'],
-            validations[element]['errorMessage']
-        )
-    }
-
-    if (paymentOptionSelected() == 'credit-card') {
-        const cardNumber = document.querySelector('input#cc-num');
-        validateElemenetOnChange(cardNumber, validateCardNumber);
-        
-        const zipCode = document.querySelector('input#zip');
-        validateElemenetOnChange(zipCode, validateZipCode);
-        
-        const cvv = document.querySelector('input#cvv');
-        validateElemenetOnChange(cvv, validateCVV);
+        let validate = true;
+        if (validations[element]['type'] == 'payment') {
+            validate = 
+                (paymentOptionSelected() == 'credit-card') ? true : false
+        }
+        if (validate) {
+            validateElemenetOnChange(
+                validations[element]['html'],
+                validations[element]['elementIsValid'],
+                validations[element]['errorElement'],
+                validations[element]['errorMessage']
+            )
+        }
     }
     
     validateFormOnSubmit();
