@@ -1,7 +1,7 @@
+const otherTitleContainerElementSelector = 'div.other-title-container';
 const otherTitleElementSelector = 'input#other-title';
 const shirtColorElementSelector = '#shirt-colors';
 const colorSelectElementSelector = '#color';
-const jobRoleOtherTitleErrorElementSelector = '.other-title-error';
 
 /**
  * Get element based on the passed selector and add 'is-hidden' class to it
@@ -63,10 +63,10 @@ function jobRoleOtherTitleFunctionality() {
     let jobRoleSelect = document.querySelector('select#title');
     jobRoleSelect.addEventListener('change', e => {
         if (e.target.value == 'other') {
-            showElementBySelector(otherTitleElementSelector);
+            showElementBySelector(otherTitleContainerElementSelector);
             setFocusOnElementBySelector(otherTitleElementSelector);
         } else {
-            hideElementBySelector(otherTitleElementSelector);
+            hideElementBySelector(otherTitleContainerElementSelector);
         }
     });
 }
@@ -618,8 +618,6 @@ function validateFormOnSubmit() {
         if (!jobRoleIsValid()) {
             formIsValid = false;
             validateJobRole();
-        } else {
-            hideElementBySelector(jobRoleOtherTitleErrorElementSelector);
         }
 
         if (!tShirtDesignIsValid()) {
@@ -691,7 +689,7 @@ function formValidationFunctionality() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    hideElementBySelector(otherTitleElementSelector);
+    hideElementBySelector(otherTitleContainerElementSelector);
     hideElementBySelector(shirtColorElementSelector);
     setPaymentOption('credit-card');
 
