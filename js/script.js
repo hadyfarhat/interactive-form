@@ -441,19 +441,6 @@ function jobRoleIsValid() {
 
 
 /**
- * Job Role Validation
- */
-function validateJobRole() {
-    const otherTitleErrorElement = document.querySelector('div.other-title-error');
-    validateElemenet(
-        jobRoleIsValid,
-        otherTitleErrorElement,
-        'Job Role field should not be empty'
-    );
-}
-
-
-/**
  * Checks if at least one checkbox is checked
  */
 function activityRegistrationIsValid() {
@@ -467,26 +454,12 @@ function activityRegistrationIsValid() {
 }
 
 
-
 /**
  * Checks if 'select' is not selected in tshirt design
  */
 function tShirtDesignIsValid() {
     const design = document.querySelector('select#design');
     return (design.value == 'select') ? false : true;
-}
-
-
-/**
- * Card Number Validation
- */
-function validateCardNumber() {
-    const cardNumberErrorElement = document.querySelector('div.card-number-error');
-    validateElemenet(
-        cardNumberIsValid,
-        cardNumberErrorElement,
-        'Card number should be 13-16 digits long'
-    );
 }
 
 
@@ -500,37 +473,11 @@ function cardNumberIsValid() {
 
 
 /**
- * Zip Code Validation
- */
-function validateZipCode() {
-    const zipCodeErrorElement = document.querySelector('div.zip-error');
-    validateElemenet(
-        zipCodeIsValid,
-        zipCodeErrorElement,
-        'Zip Code field should be 5 digits long'
-    );
-}
-
-
-/**
  * Checks if zip code is 5 digits long
  */
 function zipCodeIsValid() {
     const zipCode = document.querySelector('input#zip').value.trim();
     return zipCode.length == 5;
-}
-
-
-/**
- * CVV Validation
- */
-function validateCVV() {
-    const cvvErrorElement = document.querySelector('div.cvv-error');
-    validateElemenet(
-        cvvIsValid,
-        cvvErrorElement,
-        'CVV field should be 3 digits long'
-    );
 }
 
 
