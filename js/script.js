@@ -437,6 +437,33 @@ function validateEmailField() {
 
 
 /**
+ * If "Other" is selected in the Job Role, it checks if field is empty or not
+ */
+function jobRoleIsValid() {
+    const title = document.querySelector('#title');
+    if (title.value == 'other') {
+        const otherTitle = document.querySelector('#other-title');
+        if (!strIsNotEmpty(otherTitle.value)) return false;
+    }
+
+    return true;
+}
+
+
+/**
+ * Job Role Validation
+ */
+function validateJobRole() {
+    const otherTitleErrorElement = document.querySelector('div.other-title-error');
+    validateElemenet(
+        jobRoleIsValid,
+        otherTitleErrorElement,
+        'Job Role field should not be empty'
+    );
+}
+
+
+/**
  * Checks if at least one checkbox is checked
  */
 function activityRegistrationIsValid() {
@@ -489,6 +516,11 @@ function validateFormOnSubmit() {
             validateEmailField();
         }
 
+        if (!jobRoleIsValid()) {
+            formIsValid = false;
+            validateJobRole();
+        }
+
         if (!activityRegistrationIsValid()) {
             formIsValid = false;
             validateActivityRegistration();
@@ -514,6 +546,9 @@ function formValidationFunctionality() {
     
     const email = document.querySelector('input#mail');
     validateElemenetOnChange(email, validateEmailField);
+
+    const otherTitle = document.querySelector('input#other-title');
+    validateElemenetOnChange(otherTitle, validateJobRole);
 
     const activities = document.querySelector('.activities');
     validateElemenetOnChange(activities, validateActivityRegistration);
