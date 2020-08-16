@@ -490,7 +490,7 @@ function validateFormOnSubmit() {
         }
 
         if (!activityRegistrationIsValid()) {
-            validateEmailField = false;
+            formIsValid = false;
             validateActivityRegistration();
         }
         // activity registration checkboxes
