@@ -194,7 +194,6 @@ function getAllActivitiesByDay(day) {
  * @return {string[]} array of time slots
  */
 function getTimeSlotsFromDayAndTime(dayAndTime) {
-    let day = getDayFromDayAndTimeStr(dayAndTime);
     let time = getTimeFromDayAndTimeStr(dayAndTime);
     let startTime = change12to24HourFormat(time[0]);
     let endTime = change12to24HourFormat(time[1]);
@@ -390,11 +389,17 @@ function validateElemenet(elementValidation, errorElement, errorMessage) {
  * Adds change event listener to the given element. On change, the given
  * validation function will be called.
  * @param {HTML element} element - element that will be validated
- * @param {function} elementValidation - element validation function
+ * @param {function} elementIsValid - element validation function
+ * @param {HTML element} errorElement - error element to be displayed if invalid
+ * @param {string} errorMessage - message to be displayed if validation fails
  */
-function validateElemenetOnChange(element, elementValidation) {
+function validateElemenetOnChange(element, elementIsValid, errorElement, errorMessage) {
     element.addEventListener('change', () => {
-        elementValidation();
+        validateElemenet(
+            elementIsValid,
+            errorElement,
+            errorMessage
+        )
     });
 }
 
@@ -411,19 +416,6 @@ function nameFieldIsValid() {
 
 
 /**
- * Name Field Validation
- */
-function validateNameField() {
-    const nameErrorElement = document.querySelector('div.name-error');
-    validateElemenet(
-        nameFieldIsValid,
-        nameErrorElement,
-        'Name should not be empty'
-    );
-}
-
-
-/**
  * Checks if the email field value matches the stated regex expression
  * @return {boolean} if email value matches regex or not
  */
@@ -431,19 +423,6 @@ function emailFieldIsValid() {
     const email = document.querySelector('input#mail');
     const regex = /^[^@.]+@[^@.]+\.[^@.]+$/;
     return regex.test(email.value.trim());
-}
-
-
-/**
- * Email Field Validation
- */
-function validateEmailField() {
-    const emailErrorElement = document.querySelector('div.mail-error');
-    validateElemenet(
-        emailFieldIsValid,
-        emailErrorElement,
-        'Email should be in the format: test@example.com'
-    );
 }
 
 
@@ -487,18 +466,6 @@ function activityRegistrationIsValid() {
     return false;
 }
 
-
-/**
- * T-Shirt Design Validation
- */
-function validateTshirtDesign() {
-    const designErrorElement = document.querySelector('div.design-error');
-    validateElemenet(
-        tShirtDesignIsValid,
-        designErrorElement,
-        'You should select a t-shirt design theme'
-    );
-}
 
 
 /**
@@ -590,39 +557,50 @@ function validateActivityRegistration() {
 }
 
 
+const validations = {
+    name: {
+        html: document.querySelector('input#name'),
+        errorElement: document.querySelector('div.name-error'),
+        elementIsValid: nameFieldIsValid,
+        errorMessage: 'Name should not be empty'
+    }, 
+    email: {
+        html: document.querySelector('input#mail'),
+        errorElement: document.querySelector('div.mail-error'),
+        elementIsValid: emailFieldIsValid,
+        errorMessage: 'Email should be in the format: test@example.com'
+    },
+    jobRoleOtherTitle: {
+        html: document.querySelector('input#other-title'),
+        errorElement: document.querySelector('div.other-title-error'),
+        elementIsValid: jobRoleIsValid,
+        errorMessage: 'Job Role field should not be empty'
+    },
+    tShirtDesign: {
+        html: document.querySelector('select#design'),
+        errorElement: document.querySelector('div.design-error'),
+        elementIsValid: tShirtDesignIsValid,
+        errorMessage: 'You should select a t-shirt design theme'
+    }
+};
+
+
 /**
- * Validate the form on submit. Validation includes:
- *  - name field validation
- *  - email field validation
- *  - activity registration validation
- *  if credit card payment is selected:
- *  - credit card number validation
- *  - zip code validation
- *  - cvv validation
+ * Validate the form on submit
  */
 function validateFormOnSubmit() {
     const form = document.querySelector('form');
     let formIsValid = true;
 
     form.addEventListener('submit', e => {
-        if (!nameFieldIsValid()) {
-            formIsValid = false;
-            validateNameField();
-        }
-
-        if (!emailFieldIsValid()) {
-            formIsValid = false;
-            validateEmailField();
-        }
-
-        if (!jobRoleIsValid()) {
-            formIsValid = false;
-            validateJobRole();
-        }
-
-        if (!tShirtDesignIsValid()) {
-            formIsValid = false;
-            validateTshirtDesign();
+        for (let element in validations) {
+            if (!validations[element]['elementIsValid']()) {
+                validateElemenet(
+                    validations[element]['elementIsValid'],
+                    validations[element]['errorElement'],
+                    validations[element]['errorMessage']
+                )
+            }
         }
 
         if (!activityRegistrationIsValid()) {
@@ -658,17 +636,14 @@ function validateFormOnSubmit() {
  * Main method for validating the form
  */
 function formValidationFunctionality() {
-    const name = document.querySelector('input#name');
-    validateElemenetOnChange(name, validateNameField);
-    
-    const email = document.querySelector('input#mail');
-    validateElemenetOnChange(email, validateEmailField);
-
-    const otherTitle = document.querySelector('input#other-title');
-    validateElemenetOnChange(otherTitle, validateJobRole);
-
-    const tShirtDesign = document.querySelector('select#design');
-    validateElemenetOnChange(tShirtDesign, validateTshirtDesign);
+    for (let element in validations) {
+        validateElemenetOnChange(
+            validations[element]['html'],
+            validations[element]['elementIsValid'],
+            validations[element]['errorElement'],
+            validations[element]['errorMessage']
+        )
+    }
 
     const activities = document.querySelector('.activities');
     validateElemenetOnChange(activities, validateActivityRegistration);
