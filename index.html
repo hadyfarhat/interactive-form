@@ -151,6 +151,16 @@
 
         <div id="credit-card" class="credit-card payment-option">
 
+          <div class="error card-number-error is-hidden">
+            <span class="message">Card number should be 13-16 digits long</span>
+          </div>
+          <div class="error zip-error is-hidden">
+            <span class="message">Zip Code field should be 5 digits long</span>
+          </div>
+          <div class="error cvv-error is-hidden">
+            <span class="message">CVV should be 3 digits long</span>
+          </div>
+
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
         	  <input id="cc-num" name="user-cc-num" type="text">

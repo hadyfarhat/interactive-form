@@ -298,6 +298,16 @@ function activityRegistrationFunctionality() {
 
 
 /**
+ * Returns payment option selected
+ * @return {string} payment option selected
+ */
+function paymentOptionSelected() {
+    const selectPayment = document.querySelector('#payment');
+    return selectPayment.value;
+}
+
+
+/**
  * Hide all payment options except for the one stated below
  * @param {string} option - class name of the payment option to be used/selected
  */
@@ -478,6 +488,9 @@ function activityRegistrationIsValid() {
 }
 
 
+/**
+ * T-Shirt Design Validation
+ */
 function validateTshirtDesign() {
     const designErrorElement = document.querySelector('div.design-error');
     validateElemenet(
@@ -488,9 +501,78 @@ function validateTshirtDesign() {
 }
 
 
+/**
+ * Checks if 'select' is not selected in tshirt design
+ */
 function tShirtDesignIsValid() {
     const design = document.querySelector('select#design');
     return (design.value == 'select') ? false : true;
+}
+
+
+/**
+ * Card Number Validation
+ */
+function validateCardNumber() {
+    const cardNumberErrorElement = document.querySelector('div.card-number-error');
+    validateElemenet(
+        cardNumberIsValid,
+        cardNumberErrorElement,
+        'Card number should be 13-16 digits long'
+    );
+}
+
+
+/**
+ * Checks if card number is 13-16 digits long
+ */
+function cardNumberIsValid() {
+    const cardNumber = document.querySelector('input#cc-num').value.trim();
+    return (cardNumber.length >= 13 && cardNumber.length <= 16);
+}
+
+
+/**
+ * Zip Code Validation
+ */
+function validateZipCode() {
+    const zipCodeErrorElement = document.querySelector('div.zip-error');
+    validateElemenet(
+        zipCodeIsValid,
+        zipCodeErrorElement,
+        'Zip Code field should be 5 digits long'
+    );
+}
+
+
+/**
+ * Checks if zip code is 5 digits long
+ */
+function zipCodeIsValid() {
+    const zipCode = document.querySelector('input#zip').value.trim();
+    return zipCode.length == 5;
+}
+
+
+/**
+ * CVV Validation
+ */
+function validateCVV() {
+    const cvvErrorElement = document.querySelector('div.cvv-error');
+    validateElemenet(
+        cvvIsValid,
+        cvvErrorElement,
+        'CVV field should be 3 digits long'
+    );
+}
+
+
+/**
+ * Checks if cvv is 3 digits long
+ */
+function cvvIsValid() {
+    const cvv = document.querySelector('input#cvv').value.trim();
+    return cvv.length == 3;
 }
 
 
@@ -549,10 +631,23 @@ function validateFormOnSubmit() {
             formIsValid = false;
             validateActivityRegistration();
         }
-        // activity registration checkboxes
-        // credit card number
-        // zip code
-        // cvv
+
+        if (paymentOptionSelected() == 'credit-card') {
+            if (!cardNumberIsValid()) {
+                formIsValid = false;
+                validateCardNumber();
+            }
+
+            if (!zipCodeIsValid()) {
+                formIsValid = false;
+                validateZipCode();
+            }
+
+            if (!cvvIsValid()) {
+                formIsValid = false;
+                validateCVV();
+            }
+        }
 
         if (!formIsValid) {
             e.preventDefault();
@@ -579,6 +674,17 @@ function formValidationFunctionality() {
 
     const activities = document.querySelector('.activities');
     validateElemenetOnChange(activities, validateActivityRegistration);
+
+    if (paymentOptionSelected() == 'credit-card') {
+        const cardNumber = document.querySelector('input#cc-num');
+        validateElemenetOnChange(cardNumber, validateCardNumber);
+        
+        const zipCode = document.querySelector('input#zip');
+        validateElemenetOnChange(zipCode, validateZipCode);
+        
+        const cvv = document.querySelector('input#cvv');
+        validateElemenetOnChange(cvv, validateCVV);
+    }
     
     validateFormOnSubmit();
 }
