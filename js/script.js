@@ -1,6 +1,7 @@
 const otherTitleElementSelector = 'input#other-title';
 const shirtColorElementSelector = '#shirt-colors';
 const colorSelectElementSelector = '#color';
+const jobRoleOtherTitleErrorElementSelector = '.other-title-error';
 
 /**
  * Get element based on the passed selector and add 'is-hidden' class to it
@@ -519,6 +520,8 @@ function validateFormOnSubmit() {
         if (!jobRoleIsValid()) {
             formIsValid = false;
             validateJobRole();
+        } else {
+            hideElementBySelector(jobRoleOtherTitleErrorElementSelector);
         }
 
         if (!activityRegistrationIsValid()) {
