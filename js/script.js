@@ -417,7 +417,7 @@ function nameFieldIsValid() {
 
 /**
  * Checks if the email field value matches the stated regex expression
- * @return {boolean} if email value matches regex or not
+ * @return {boolean} if email value matches regex
  */
 function emailFieldIsValid() {
     const email = document.querySelector('input#mail');
@@ -428,6 +428,7 @@ function emailFieldIsValid() {
 
 /**
  * If "Other" is selected in the Job Role, it checks if field is empty or not
+ * @return {boolean} if field is empty
  */
 function jobRoleIsValid() {
     const title = document.querySelector('#title');
@@ -442,6 +443,7 @@ function jobRoleIsValid() {
 
 /**
  * Checks if at least one checkbox is checked
+ * @return {boolean} if at least one checkbox is checked
  */
 function activityRegistrationIsValid() {
     const activities = document.querySelector('fieldset.activities');
@@ -456,6 +458,7 @@ function activityRegistrationIsValid() {
 
 /**
  * Checks if 'select' is not selected in tshirt design
+ * @return {boolean} if 'select' is not selected
  */
 function tShirtDesignIsValid() {
     const design = document.querySelector('select#design');
@@ -465,6 +468,7 @@ function tShirtDesignIsValid() {
 
 /**
  * Checks if payment drop down menu is not equal to 'Select Payment Method'
+ * @return {boolean} if payment method is not equal to 'select method'
  */
 function paymentMethodIsValid() {
     const payment = document.querySelector('select#payment');
@@ -474,6 +478,7 @@ function paymentMethodIsValid() {
 
 /**
  * Checks if card number is 13-16 digits long
+ * @return {boolean} if card number is within the correct range
  */
 function cardNumberIsValid() {
     const cardNumber = document.querySelector('input#cc-num').value.trim();
@@ -483,6 +488,7 @@ function cardNumberIsValid() {
 
 /**
  * Checks if card number is not empty
+ * @return {boolean} is card number is not empty
  */
 function cardNumberIsNotEmpty() {
     const cardNumber = document.querySelector('input#cc-num').value.trim();
@@ -492,6 +498,7 @@ function cardNumberIsNotEmpty() {
 
 /**
  * Checks if zip code is 5 digits long
+ * @return {boolean} if zip code is within the correct range
  */
 function zipCodeIsValid() {
     const zipCode = document.querySelector('input#zip').value.trim();
@@ -501,6 +508,7 @@ function zipCodeIsValid() {
 
 /**
  * Checks if cvv is 3 digits long
+ * @return {boolean} if cvv is within the correct range
  */
 function cvvIsValid() {
     const cvv = document.querySelector('input#cvv').value.trim();
