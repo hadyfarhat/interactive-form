@@ -464,6 +464,15 @@ function tShirtDesignIsValid() {
 
 
 /**
+ * Checks if payment drop down menu is not equal to 'Select Payment Method'
+ */
+function paymentMethodIsValid() {
+    const payment = document.querySelector('select#payment');
+    return (payment.value != 'select method');
+}
+
+
+/**
  * Checks if card number is 13-16 digits long
  */
 function cardNumberIsValid() {
@@ -505,63 +514,70 @@ const validations = {
         errorElement: document.querySelector('div.name-error'),
         elementIsValid: nameFieldIsValid,
         errorMessage: 'Name should not be empty',
-        type: "non-payment"
+        isCreditCard: false
     }, 
     email: {
         html: document.querySelector('input#mail'),
         errorElement: document.querySelector('div.mail-error'),
         elementIsValid: emailFieldIsValid,
         errorMessage: 'Email should be in the format: test@example.com',
-        isPayment: false
+        isCreditCard: false
     },
     jobRoleOtherTitle: {
         html: document.querySelector('input#other-title'),
         errorElement: document.querySelector('div.other-title-error'),
         elementIsValid: jobRoleIsValid,
         errorMessage: 'Job Role field should not be empty',
-        isPayment: false
+        isCreditCard: false
     },
     tShirtDesign: {
         html: document.querySelector('select#design'),
         errorElement: document.querySelector('div.design-error'),
         elementIsValid: tShirtDesignIsValid,
         errorMessage: 'You should select a t-shirt design theme',
-        isPayment: false
+        isCreditCard: false
     },
     activityRegistration: {
         html: document.querySelector('.activities'),
         errorElement: document.querySelector('div.activities-error'),
         elementIsValid: activityRegistrationIsValid,
         errorMessage: 'At least one activity should be checked',
-        isPayment: false
+        isCreditCard: false
+    },
+    paymentMethod: {
+        html: document.querySelector('select#payment'),
+        errorElement: document.querySelector('div.payment-method-error'),
+        elementIsValid: paymentMethodIsValid,
+        errorMessage: 'Please select a payment method',
+        isCreditCard: false
     },
     cardNumber: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-empty-error'),
         elementIsValid: cardNumberIsNotEmpty,
         errorMessage: 'Card number should not be empty',
-        isPayment: true
+        isCreditCard: true
     },
     cardNumber2: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-digits-error'),
         elementIsValid: cardNumberIsValid,
         errorMessage: 'Card number should be 13-16 digits long',
-        isPayment: true
+        isCreditCard: true
     },
     zipCode: {
         html: document.querySelector('input#zip'),
         errorElement: document.querySelector('div.zip-error'),
         elementIsValid: zipCodeIsValid,
         errorMessage: 'Zip Code field should be 5 digits long',
-        isPayment: true
+        isCreditCard: true
     },
     cvv: {
         html: document.querySelector('input#cvv'),
         errorElement: document.querySelector('div.cvv-error'),
         elementIsValid: cvvIsValid,
         errorMessage: 'CVV field should be 3 digits long',
-        isPayment: true
+        isCreditCard: true
     }
 };
 
@@ -577,7 +593,7 @@ function validateFormOnSubmit() {
         formIsValid = true;
         for (let element in validations) {
             let validate = true;
-            if (validations[element]['isPayment']) {
+            if (validations[element]['isCreditCard']) {
                 validate = 
                     (paymentOptionSelected() == 'credit-card') ? true : false
             }
@@ -606,7 +622,7 @@ function validateFormOnSubmit() {
 function formValidationFunctionality() {
     for (let element in validations) {
         let validate = true;
-        if (validations[element]['type'] == 'payment') {
+        if (validations[element]['isCreditCard']) {
             validate = 
                 (paymentOptionSelected() == 'credit-card') ? true : false
         }
