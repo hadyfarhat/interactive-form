@@ -473,6 +473,15 @@ function cardNumberIsValid() {
 
 
 /**
+ * Checks if card number is not empty
+ */
+function cardNumberIsNotEmpty() {
+    const cardNumber = document.querySelector('input#cc-num').value.trim();
+    return strIsNotEmpty(cardNumber);
+}
+
+
+/**
  * Checks if zip code is 5 digits long
  */
 function zipCodeIsValid() {
@@ -528,7 +537,14 @@ const validations = {
     },
     cardNumber: {
         html: document.querySelector('input#cc-num'),
-        errorElement: document.querySelector('div.card-number-error'),
+        errorElement: document.querySelector('div.card-number-empty-error'),
+        elementIsValid: cardNumberIsNotEmpty,
+        errorMessage: 'Card number should not be empty',
+        isPayment: true
+    },
+    cardNumber2: {
+        html: document.querySelector('input#cc-num'),
+        errorElement: document.querySelector('div.card-number-digits-error'),
         elementIsValid: cardNumberIsValid,
         errorMessage: 'Card number should be 13-16 digits long',
         isPayment: true

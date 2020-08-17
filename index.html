@@ -54,7 +54,7 @@
         </div>
       </fieldset>
 
-      
+      <!-- T-Shirt Info -->
       <fieldset class="shirt">
         <legend>T-Shirt Info</legend>
         
@@ -138,7 +138,8 @@
         <div class="error activities-error is-hidden">
           <span class="message">At least one activity should be checked</span>
         </div>
-          
+      
+      <!-- Payment Info -->
       </fieldset>
       <fieldset>
         <legend>Payment Info</legend>
@@ -153,7 +154,10 @@
 
         <div id="credit-card" class="credit-card payment-option">
 
-          <div class="error card-number-error is-hidden">
+          <div class="error card-number-empty-error is-hidden">
+            <span class="message">Card number should not be empty</span>
+          </div>
+          <div class="error card-number-digits-error is-hidden">
             <span class="message">Card number should be 13-16 digits long</span>
           </div>
           <div class="error zip-error is-hidden">
