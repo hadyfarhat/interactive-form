@@ -486,6 +486,16 @@ function paymentMethodIsValid() {
 
 
 /**
+ * Checks if card number is not empty
+ * @return {boolean} if card number is not empty
+ */
+function cardNumberIsNotEmpty() {
+    const cardNumber = document.querySelector('input#cc-num').value.trim();
+    return strIsNotEmpty(cardNumber);
+}
+
+
+/**
  * Checks if card number is 13-16 digits long
  * @return {boolean} if card number is within the correct range
  */
@@ -506,12 +516,12 @@ function cardNumberContainsDigitsOnly() {
 
 
 /**
- * Checks if card number is not empty
- * @return {boolean} is card number is not empty
+ * Checks if zip code is not empty
+ * @return {boolean} if zip code is not empty
  */
-function cardNumberIsNotEmpty() {
-    const cardNumber = document.querySelector('input#cc-num').value.trim();
-    return strIsNotEmpty(cardNumber);
+function zipCodeIsNotEmpty() {
+    const zipCode = document.querySelector('input#zip').value.trim();
+    return strIsNotEmpty(zipCode);
 }
 
 
@@ -519,9 +529,29 @@ function cardNumberIsNotEmpty() {
  * Checks if zip code is 5 digits long
  * @return {boolean} if zip code is within the correct range
  */
-function zipCodeIsValid() {
+function zipCodeIsWithinCorrectRange() {
     const zipCode = document.querySelector('input#zip').value.trim();
     return zipCode.length == 5;
+}
+
+
+/**
+ * Checks if zip code contains numbers/digits only
+ * @return {boolean} if zip code contains digits only
+ */
+function zipCodeContainsDigitsOnly() {
+    const zipCode = document.querySelector('input#zip').value.trim();
+    return (strContainsNumbersOnly(zipCode));
+}
+
+
+/**
+ * Checks if cvv is not empty
+ * @return {boolean} if cvv is not empty
+ */
+function cvvIsNotEmpty() {
+    const cvv = document.querySelector('input#cvv').value.trim();
+    return strIsNotEmpty(cvv);
 }
 
 
@@ -529,9 +559,19 @@ function zipCodeIsValid() {
  * Checks if cvv is 3 digits long
  * @return {boolean} if cvv is within the correct range
  */
-function cvvIsValid() {
+function cvvIsWithinCorrectRange() {
     const cvv = document.querySelector('input#cvv').value.trim();
     return cvv.length == 3;
+}
+
+
+/**
+ * Checks if cvv contains numbers/digits only
+ * @return {boolean} if cvv contains digits only
+ */
+function cvvContainsDigitsOnly() {
+    const cvv = document.querySelector('input#cvv').value.trim();
+    return (strContainsNumbersOnly(cvv));
 }
 
 
@@ -599,20 +639,48 @@ const validations = {
         errorMessage: 'Card number should contain digits only',
         isCreditCard: true
     },
-    zipCode: {
+    zipCodeIsNotEmpty: {
         html: document.querySelector('input#zip'),
-        errorElement: document.querySelector('div.zip-error'),
-        elementIsValid: zipCodeIsValid,
+        errorElement: document.querySelector('div.zip-empty-error'),
+        elementIsValid: zipCodeIsNotEmpty,
+        errorMessage: 'Zip Code field should not be empty',
+        isCreditCard: true
+    },
+    zipCodeIsWithinCorrectRange: {
+        html: document.querySelector('input#zip'),
+        errorElement: document.querySelector('div.zip-digits-error'),
+        elementIsValid: zipCodeIsWithinCorrectRange,
         errorMessage: 'Zip Code field should be 5 digits long',
         isCreditCard: true
     },
-    cvv: {
-        html: document.querySelector('input#cvv'),
-        errorElement: document.querySelector('div.cvv-error'),
-        elementIsValid: cvvIsValid,
-        errorMessage: 'CVV field should be 3 digits long',
+    zipCodeContainsDigitsOnly: {
+        html: document.querySelector('input#zip'),
+        errorElement: document.querySelector('div.zip-digits-only-error'),
+        elementIsValid: zipCodeIsWithinCorrectRange,
+        errorMessage: 'Zip Code field should contain digits only',
         isCreditCard: true
-    }
+    },
+    cvvIsNotEmpty: {
+        html: document.querySelector('input#cvv'),
+        errorElement: document.querySelector('div.cvv-empty-error'),
+        elementIsValid: cvvIsNotEmpty,
+        errorMessage: 'CVV field should not be empty',
+        isCreditCard: true
+    },
+    cvvIsWithinCorrectRange: {
+        html: document.querySelector('input#cvv'),
+        errorElement: document.querySelector('div.cvv-digits-error'),
+        elementIsValid: cvvIsWithinCorrectRange,
+        errorMessage: 'CVV field should be 5 digits long',
+        isCreditCard: true
+    },
+    cvvContainsDigitsOnly: {
+        html: document.querySelector('input#cvv'),
+        errorElement: document.querySelector('div.cvv-digits-only-error'),
+        elementIsValid: cvvContainsDigitsOnly,
+        errorMessage: 'CVV field should contain digits only',
+        isCreditCard: true
+    },
 };
 
 

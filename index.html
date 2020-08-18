@@ -156,7 +156,7 @@
         </select>
 
         <div id="credit-card" class="credit-card payment-option">
-
+          <!-- Card Number Errors -->
           <div class="error card-number-empty-error is-hidden">
             <span class="message">Card number should not be empty</span>
           </div>
@@ -166,11 +166,25 @@
           <div class="error card-number-digits-only-error is-hidden">
             <span class="message">Card number should contain digits only</span>
           </div>
-          <div class="error zip-error is-hidden">
+          <!-- Zip Code Errors -->
+          <div class="error zip-empty-error is-hidden">
+            <span class="message">Zip Code field should not be empty</span>
+          </div>
+          <div class="error zip-digits-error is-hidden">
             <span class="message">Zip Code field should be 5 digits long</span>
           </div>
-          <div class="error cvv-error is-hidden">
-            <span class="message">CVV should be 3 digits long</span>
+          <div class="error zip-digits-only-error is-hidden">
+            <span class="message">Zip Code field should contain digits only</span>
+          </div>
+          <!-- CVV Errors -->
+          <div class="error cvv-empty-error is-hidden">
+            <span class="message">CVV field should not be empty</span>
+          </div>
+          <div class="error cvv-digits-error is-hidden">
+            <span class="message">CVV field should be 3 digits long</span>
+          </div>
+          <div class="error cvv-digits-only-error is-hidden">
+            <span class="message">CVV field should contain digits only</span>
           </div>
 
           <div class="col-6 col">
