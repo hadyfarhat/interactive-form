@@ -489,9 +489,19 @@ function paymentMethodIsValid() {
  * Checks if card number is 13-16 digits long
  * @return {boolean} if card number is within the correct range
  */
-function cardNumberIsValid() {
+function cardNumberIsWithinCorrectRange() {
     const cardNumber = document.querySelector('input#cc-num').value.trim();
     return (cardNumber.length >= 13 && cardNumber.length <= 16);
+}
+
+
+/**
+ * Checks if card number contains numbers/digits only
+ * @return {boolean} if card number contains digits only
+ */
+function cardNumberContainsDigitsOnly() {
+    const cardNumber = document.querySelector('input#cc-num').value.trim();
+    return (strContainsNumbersOnly(cardNumber));
 }
 
 
@@ -568,18 +578,25 @@ const validations = {
         errorMessage: 'Please select a payment method',
         isCreditCard: false
     },
-    cardNumber: {
+    cardNumberIsNotEmpty: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-empty-error'),
         elementIsValid: cardNumberIsNotEmpty,
         errorMessage: 'Card number should not be empty',
         isCreditCard: true
     },
-    cardNumber2: {
+    cardNumberIsWithinCorrectRange: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-digits-error'),
-        elementIsValid: cardNumberIsValid,
+        elementIsValid: cardNumberIsWithinCorrectRange,
         errorMessage: 'Card number should be 13-16 digits long',
+        isCreditCard: true
+    },
+    cardNumberContainsDigitsOnly: {
+        html: document.querySelector('input#cc-num'),
+        errorElement: document.querySelector('div.card-number-digits-only-error'),
+        elementIsValid: cardNumberContainsDigitsOnly,
+        errorMessage: 'Card number should contain digits only',
         isCreditCard: true
     },
     zipCode: {
