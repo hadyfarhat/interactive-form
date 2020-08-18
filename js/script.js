@@ -612,7 +612,7 @@ const validations = {
     zipCodeContainsDigitsOnly: {
         html: document.querySelector('input#zip'),
         errorElement: document.querySelector('div.zip-digits-only-error'),
-        elementIsValid: zipCodeIsWithinCorrectRange,
+        elementIsValid: zipCodeContainsDigitsOnly,
         errorMessage: 'Zip Code field should contain digits only',
         isCreditCard: true
     },
