@@ -486,16 +486,6 @@ function paymentMethodIsValid() {
 
 
 /**
- * Checks if card number is not empty
- * @return {boolean} if card number is not empty
- */
-function cardNumberIsNotEmpty() {
-    const cardNumber = document.querySelector('input#cc-num').value.trim();
-    return strIsNotEmpty(cardNumber);
-}
-
-
-/**
  * Checks if card number is 13-16 digits long
  * @return {boolean} if card number is within the correct range
  */
@@ -516,16 +506,6 @@ function cardNumberContainsDigitsOnly() {
 
 
 /**
- * Checks if zip code is not empty
- * @return {boolean} if zip code is not empty
- */
-function zipCodeIsNotEmpty() {
-    const zipCode = document.querySelector('input#zip').value.trim();
-    return strIsNotEmpty(zipCode);
-}
-
-
-/**
  * Checks if zip code is 5 digits long
  * @return {boolean} if zip code is within the correct range
  */
@@ -542,16 +522,6 @@ function zipCodeIsWithinCorrectRange() {
 function zipCodeContainsDigitsOnly() {
     const zipCode = document.querySelector('input#zip').value.trim();
     return (strContainsNumbersOnly(zipCode));
-}
-
-
-/**
- * Checks if cvv is not empty
- * @return {boolean} if cvv is not empty
- */
-function cvvIsNotEmpty() {
-    const cvv = document.querySelector('input#cvv').value.trim();
-    return strIsNotEmpty(cvv);
 }
 
 
@@ -618,13 +588,6 @@ const validations = {
         errorMessage: 'Please select a payment method',
         isCreditCard: false
     },
-    cardNumberIsNotEmpty: {
-        html: document.querySelector('input#cc-num'),
-        errorElement: document.querySelector('div.card-number-empty-error'),
-        elementIsValid: cardNumberIsNotEmpty,
-        errorMessage: 'Card number should not be empty',
-        isCreditCard: true
-    },
     cardNumberIsWithinCorrectRange: {
         html: document.querySelector('input#cc-num'),
         errorElement: document.querySelector('div.card-number-digits-error'),
@@ -639,13 +602,6 @@ const validations = {
         errorMessage: 'Card number should contain digits only',
         isCreditCard: true
     },
-    zipCodeIsNotEmpty: {
-        html: document.querySelector('input#zip'),
-        errorElement: document.querySelector('div.zip-empty-error'),
-        elementIsValid: zipCodeIsNotEmpty,
-        errorMessage: 'Zip Code field should not be empty',
-        isCreditCard: true
-    },
     zipCodeIsWithinCorrectRange: {
         html: document.querySelector('input#zip'),
         errorElement: document.querySelector('div.zip-digits-error'),
@@ -658,13 +614,6 @@ const validations = {
         errorElement: document.querySelector('div.zip-digits-only-error'),
         elementIsValid: zipCodeIsWithinCorrectRange,
         errorMessage: 'Zip Code field should contain digits only',
-        isCreditCard: true
-    },
-    cvvIsNotEmpty: {
-        html: document.querySelector('input#cvv'),
-        errorElement: document.querySelector('div.cvv-empty-error'),
-        elementIsValid: cvvIsNotEmpty,
-        errorMessage: 'CVV field should not be empty',
         isCreditCard: true
     },
     cvvIsWithinCorrectRange: {
