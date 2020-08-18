@@ -668,25 +668,25 @@ function validateFormOnSubmit() {
 
 
 /**
+ * Add change event listeners to form validations
+ */
+function validateFormElementsOnChange() {
+    for (let element in validations) {
+        validateElemenetOnChange(
+            validations[element]['html'],
+            validations[element]['elementIsValid'],
+            validations[element]['errorElement'],
+            validations[element]['errorMessage']
+        )
+    }
+}
+
+
+/**
  * Main method for validating the form
  */
 function formValidationFunctionality() {
-    for (let element in validations) {
-        let validate = true;
-        if (validations[element]['isCreditCard']) {
-            validate = 
-                (paymentOptionSelected() == 'credit-card') ? true : false
-        }
-        if (validate) {
-            validateElemenetOnChange(
-                validations[element]['html'],
-                validations[element]['elementIsValid'],
-                validations[element]['errorElement'],
-                validations[element]['errorMessage']
-            )
-        }
-    }
-    
+    validateFormElementsOnChange();
     validateFormOnSubmit();
 }
 
