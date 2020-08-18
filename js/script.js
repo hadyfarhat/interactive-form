@@ -351,6 +351,15 @@ function strIsNotEmpty(str) {
 
 
 /**
+ * Checks if the given string contains digits/numbers only
+ * @param {string} str
+ */
+function strContainsNumbersOnly(str) {
+    return /^\d+$/g.test(str.trim());
+}
+
+
+/**
  * Display the given error element with the given error message if
  * displayError is true. Otherwise, hide them.
  * @param {HTML element} errorElement - error element to be displayed if invalid
